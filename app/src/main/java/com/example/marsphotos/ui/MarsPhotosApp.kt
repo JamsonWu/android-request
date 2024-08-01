@@ -46,8 +46,10 @@ fun MarsPhotosApp() {
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
+            // 实例化视图模型
             val marsViewModel: MarsViewModel = viewModel()
             HomeScreen(
+                // 读取模型数据
                 marsUiState = marsViewModel.marsUiState,
                 contentPadding = it,
             )

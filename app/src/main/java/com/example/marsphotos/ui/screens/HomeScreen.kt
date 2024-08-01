@@ -17,6 +17,7 @@ package com.example.marsphotos.ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,18 +31,41 @@ import com.example.marsphotos.ui.theme.MarsPhotosTheme
 
 @Composable
 fun HomeScreen(
-    marsUiState: String,
+    marsUiState: MarsUiState,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    ResultScreen(marsUiState, modifier.padding(top = contentPadding.calculateTopPadding()))
+
+    when (marsUiState) {
+        // 接口调用成功状态
+        // is判断是否为某个类的实例
+        is MarsUiState.Success -> ResultScreen(
+            // 好难理解，使用is后，才能访问marsUiState.photos
+            // 为啥要写这么难理解的代码？
+            // 由于marsUiState是MarsUiState.Success类型
+            // 此时marsUiState会被视为MarsUiState.Success
+            marsUiState.photos, modifier = modifier.fillMaxWidth()
+        )
+
+        // 接口调用异常状态
+        is MarsUiState.Error -> ResultScreen(
+            "Error", modifier = modifier.fillMaxWidth()
+        )
+
+        // 接口正在调用中
+        is MarsUiState.Loading -> ResultScreen(
+            "Loading", modifier = modifier.fillMaxWidth()
+        )
+    }
+    // ResultScreen(marsUiState, modifier.padding(top = contentPadding.calculateTopPadding()))
 }
 
 /**
  * ResultScreen displaying number of photos retrieved.
  */
 @Composable
-fun ResultScreen(photos: String, modifier: Modifier = Modifier) {
+fun ResultScreen(photos: String,
+                       modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
