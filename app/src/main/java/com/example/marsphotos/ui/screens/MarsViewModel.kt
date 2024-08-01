@@ -26,10 +26,10 @@ import java.io.IOException
 
 // 接口声明加 sealed代表是受限接口，只能在当前文件中使用，外部无法访问这个接口
 sealed interface MarsUiState {
-    // 接口定义，返回类型又是接口，如何理解
-    // 接口内部可以有数据类
+    // 接口内定义的数据类，实现接口MarsUiState
+    // 只是接口MarsUiState没的成员，所以数据类与对象都没有要实现的成员
     data class Success(val photos: String) : MarsUiState
-    // 单例对象
+    // 单例对象，实现接口MarsUiState
     object Error : MarsUiState
     object Loading : MarsUiState
 }
