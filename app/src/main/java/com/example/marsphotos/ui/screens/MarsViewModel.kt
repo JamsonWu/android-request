@@ -63,7 +63,7 @@ class MarsViewModel : ViewModel() {
             //  需要加异常处理，否则程序遇到异常会崩溃退出，比如连接不上网络等
             try {
                 val listResult = MarsApi.retrofitService.getPhotos()
-                marsUiState = MarsUiState.Success(listResult)
+                marsUiState = MarsUiState.Success("Success: ${listResult.size} Mars photos retrieved")
             }
             catch (e:IOException){
                marsUiState = MarsUiState.Error

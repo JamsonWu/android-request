@@ -1,7 +1,9 @@
 package com.example.marsphotos.network
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 
 
@@ -13,7 +15,7 @@ private const val BASE_URL =
 // 创建Retrofit实例对象
 private val retrofit = Retrofit.Builder()
     // 添加转换器，比如转换为JSON格式等类型
-    .addConverterFactory(ScalarsConverterFactory.create())
+    .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
     // 加入服务基础URL
     .baseUrl(BASE_URL)
     // 构建一个对象
@@ -27,7 +29,7 @@ interface MarsApiService {
     // photos代表终结点即后台服务接口对外公布的方法名
     // 添加 suspend 声明为异步方法
     @GET("photos")
-    suspend fun getPhotos():String
+    suspend fun getPhotos():List<MarsPhoto>
 }
 
 
